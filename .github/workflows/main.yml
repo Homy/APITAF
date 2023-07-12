@@ -10,24 +10,74 @@ jobs:
       matrix:
         python-version: ["3.11"]
         poetry-version: ["1.0"]
-        os: [ubuntu-18.04, macos-latest]
+        # os: [ubuntu-18.04, macos-latest]
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+          
       - name: Install poetry
         uses: abatilo/actions-poetry@v2
+
       - name: Install dependencies
         run: |
           poetry install
+
       - name: Lint with ruff
         run: |
           # stop the build if there are Python syntax errors or undefined names
           poetry run ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
           # default set of ruff rules with GitHub Annotations
           poetry run ruff --format=github --target-version=py37 .
+
       - name: Test with pytest
         run: |
-          poetry run pytest
+          poetry run pytest --alluredir=allure-results
+        continue-on-error: true
+
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Test marketplace action
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        # id: allure-report
+        with:
+          allure_results: allure-results
+          # gh_pages: gh-pages
+          # allure_report: allure-report
+          allure_history: allure-history
+      
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
+      - name: Post the link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with: 
+            authToken: ${{secrets.GITHUB_TOKEN}}
+            context: 'Test report'
+            state: 'success'
+            sha: ${{ github.event.pull_request.head.sha }}
+            target_url: Homy.github.io/APITAF/${{ github.run_number }}
