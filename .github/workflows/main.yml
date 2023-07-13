@@ -79,6 +79,5 @@ jobs:
             authToken: ${{ secrets.GITHUB_TOKEN }}
             context: 'Test report'
             state: 'success'
-#             sha: ${{ github.event.pull_request.head.sha }}
             sha: ${{github.event.pull_request.head.sha || github.sha}}
             target_url: https://Homy.github.io/APITAF/${{ github.run_number }}
