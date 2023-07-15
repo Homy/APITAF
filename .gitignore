@@ -206,3 +206,4 @@ reports/bc078e6d-88a2-4f73-bea5-8399062fc63d-result.json
 reports/d4cfd880-d1c5-47af-b350-1e130eaad039-container.json
 reports/d7037fa3-f837-47e2-85df-0720b46005e7-result.json
 .vscode/extensions.json
+.pre-commit-config.yaml

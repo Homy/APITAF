@@ -1,3 +1,4 @@
+import pytest
 import yaml
 from clients.api_client import APIClient
 from clients.posts import Posts
@@ -17,7 +18,7 @@ def api_client():
 @pytest.fixture(scope="module")
 def users(api_client):
     return Users(api_client)
-    
+
 @pytest.fixture(scope="module")
 def posts(api_client):
     return Posts(api_client)
