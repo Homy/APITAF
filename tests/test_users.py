@@ -1,18 +1,4 @@
-# test_users.py
-
-import pytest
-from clients.api_client import APIClient
-from clients.users import Users
-
-BASE_URL = "https://jsonplaceholder.typicode.com"
-
-@pytest.fixture(scope="module")
-def api_client():
-    return APIClient(BASE_URL)
-
-@pytest.fixture(scope="module")
-def users(api_client):
-    return Users(api_client)
+from conftest import users
 
 def test_get_user(users):
     user_id = 1

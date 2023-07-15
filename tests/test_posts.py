@@ -1,18 +1,6 @@
 # test_posts.py
 
-import pytest
-from clients.api_client import APIClient
-from clients.posts import Posts
-
-BASE_URL = "https://jsonplaceholder.typicode.com"
-
-@pytest.fixture(scope="module")
-def api_client():
-    return APIClient(BASE_URL)
-
-@pytest.fixture(scope="module")
-def posts(api_client):
-    return Posts(api_client)
+from conftest import posts
 
 def test_get_post(posts):
     post_id = 1
