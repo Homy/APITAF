@@ -1,10 +1,12 @@
-from conftest import users
+# test_users.py
+
 
 def test_get_user(users):
     user_id = 1
     user = users.get(user_id)
     assert isinstance(user, dict)
     assert user["id"] == user_id
+
 
 def test_create_user(users):
     new_user = {
@@ -27,6 +29,7 @@ def test_create_user(users):
     assert isinstance(created_user, dict)
     assert created_user["id"] is not None
 
+
 def test_update_user(users):
     user_id = 1
     updated_user_data = {
@@ -48,6 +51,7 @@ def test_update_user(users):
     updated_user = users.update(user_id, updated_user_data)
     assert isinstance(updated_user, dict)
     assert updated_user["name"] == "Updated Name"
+
 
 def test_delete_user(users):
     user_id = 1

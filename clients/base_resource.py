@@ -2,6 +2,7 @@
 
 from jsonschema import validate, ValidationError
 
+
 class BaseResource:
     def __init__(self, api_client, schema):
         self.api_client = api_client
@@ -26,7 +27,9 @@ class BaseResource:
     def create(self, resource_data):
         self.validate_resource_data(resource_data)
 
-        response = self.api_client.send_request("POST", self.endpoint, resource_data)
+        response = self.api_client.send_request(
+            "POST", self.endpoint, resource_data
+            )
         return self._get_json_response(response)
 
     def update(self, resource_id, resource_data):

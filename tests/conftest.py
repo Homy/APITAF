@@ -4,9 +4,11 @@ from clients.api_client import APIClient
 from clients.users import Users
 from clients.posts import Posts
 
+conf_file = "data/config.yaml"
+
 
 def load_config():
-    with open("config.yaml", "r") as f:
+    with open(conf_file, "r") as f:
         config = yaml.safe_load(f)
     return config
 
